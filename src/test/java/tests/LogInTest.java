@@ -12,11 +12,20 @@ public class LogInTest extends BaseTest {
     @Test
     public void logInTest() {
         //given
+        UserData userData = new UserData();
         //when
         LogInPage logInPage = new HomePage(driver)
                 .getLogInButton();
+        String afterLogInInfo = logInPage.getZalogujDoTrello().getText();
+        String emptyUserEmail = logInPage.getUserEmailInput().getText();
+        LogInPage logInPagePassword = logInPage.fillEmailInput(userData);
+        String loginUsername = logInPagePassword.getUsernameHidden().getText();
+        String loginPassword = logInPagePassword.getUserPasswordInput().getText();
         //then
-        Assert.assertEquals(logInPage.getZalogujDoTrello().getText(), "Zaloguj do Trello");
+        Assert.assertEquals(afterLogInInfo, "Zaloguj do Trello");
+        Assert.assertEquals(emptyUserEmail, "");
+        Assert.assertEquals(loginUsername, "automated.testing00@gmail.com");
+        Assert.assertEquals(loginPassword, "");
     }
 
     @Test
@@ -29,28 +38,6 @@ public class LogInTest extends BaseTest {
                 .fillUserLogIn(userData);
         //then
         Assert.assertEquals(loggedUserTrelloPage.getHeaderName().getText(), "TWOJE PRZESTRZENIE ROBOCZE");
-    }
-
-    @Test
-    public void emptyEmailInputTest() {
-        LogInPage logInPageEmail = new HomePage(driver)
-                .getLogInButton();
-
-        Assert.assertEquals(logInPageEmail.getUserEmailInput().getText(), "");
-
-    }
-
-    @Test
-    public void emptyPasswordInputTest() {
-        //given
-        UserData userData = new UserData();
-        //when
-        LogInPage logInPagePassword = new HomePage(driver)
-                .getLogInButton()
-                .fillEmailInput(userData);
-
-        Assert.assertEquals(logInPagePassword.getUsernameHidden().getText(), "automated.testing00@gmail.com");
-        Assert.assertEquals(logInPagePassword.getUserPasswordInput().getText(), "");
     }
 
 }
