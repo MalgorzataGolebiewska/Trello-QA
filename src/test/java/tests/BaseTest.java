@@ -8,7 +8,6 @@ import utils.DriverFactory;
 import java.time.Duration;
 
 public class BaseTest {
-
     protected WebDriver driver;
 
     @BeforeMethod
@@ -21,6 +20,6 @@ public class BaseTest {
 
     @AfterMethod
     public void tearDown() {
-        //   driver.quit();
+        driver.quit();
     }
 }

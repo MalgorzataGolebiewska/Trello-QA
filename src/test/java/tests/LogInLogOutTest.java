@@ -5,9 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.HomePage;
 import pages.LogInPage;
+import pages.LogOutPage;
 import pages.LoggedUserTrelloPage;
 
-public class LogInTest extends BaseTest {
+public class LogInLogOutTest extends BaseTest {
 
     @Test
     public void logInTest() {
@@ -38,6 +39,23 @@ public class LogInTest extends BaseTest {
                 .fillUserLogIn(userData);
         //then
         Assert.assertEquals(loggedUserTrelloPage.getHeaderName().getText(), "TWOJE PRZESTRZENIE ROBOCZE");
+    }
+
+    @Test
+    public void logOutTest() {
+        //given
+        UserData userData = new UserData();
+        //when
+        LogOutPage logOutUser = new HomePage(driver)
+                .getLogInButton()
+                .fillUserLogIn(userData)
+                .getLogOutButton();
+        String logOutHeader = logOutUser.getLogOutHeader().getText();
+        HomePage homePage = logOutUser.logOutSubmit();
+        String textBlock = homePage.getTextBlock().getText();
+        //then
+        Assert.assertEquals(logOutHeader, "Wyloguj się z konta Atlassian");
+        Assert.assertEquals(textBlock, "Trello brings all your tasks, teammates, and tools together");
     }
 
 }
