@@ -20,7 +20,7 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public LogInPage getLogInButton() {
+    public LogInPage openLogInPage() {
         logInButton.click();
         return new LogInPage(driver);
     }

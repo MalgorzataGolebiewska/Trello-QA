@@ -17,6 +17,12 @@ public class LoggedUserTrelloPage {
     @FindBy(xpath = "//li/button/span[text()='Wyloguj']")
     private WebElement logOutButton;
 
+    @FindBy(xpath = "//div[@title='Selenium test']")
+    private WebElement seleniumTestTile;
+
+    @FindBy(xpath = "//div[@class='board-tile mod-add']")
+    private WebElement addNewBoardTile;
+
     private final WebDriver driver;
 
     public LoggedUserTrelloPage(WebDriver driver) {
@@ -28,10 +34,19 @@ public class LoggedUserTrelloPage {
         return headerName;
     }
 
-    public LogOutPage getLogOutButton() {
+    public LogOutPage openLogOutPage() {
         SeleniumHelper.waitForElementToBeVisible(driver, userButtonMenu);
         userButtonMenu.click();
         logOutButton.click();
         return new LogOutPage(driver);
+    }
+
+    public SeleniumTilePage openSeleniumTile() {
+        seleniumTestTile.click();
+        return new SeleniumTilePage(driver);
+    }
+
+    public WebElement getAddNewBoardTile() {
+        return addNewBoardTile;
     }
 }

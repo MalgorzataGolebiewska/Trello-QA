@@ -23,7 +23,7 @@ public class LogOutPage {
         return logOutHeader;
     }
 
-    public HomePage logOutSubmit(){
+    public HomePage logOutToHomePage(){
         logOutSubmitButton.click();
         return new HomePage(driver);
     }

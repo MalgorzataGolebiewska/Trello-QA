@@ -16,7 +16,7 @@ public class LogInLogOutTest extends BaseTest {
         UserData userData = new UserData();
         //when
         LogInPage logInPage = new HomePage(driver)
-                .getLogInButton();
+                .openLogInPage();
         String afterLogInInfo = logInPage.getZalogujDoTrello().getText();
         String emptyUserEmail = logInPage.getUserEmailInput().getText();
         LogInPage logInPagePassword = logInPage.fillEmailInput(userData);
@@ -35,7 +35,7 @@ public class LogInLogOutTest extends BaseTest {
         UserData userData = new UserData();
         //when
         LoggedUserTrelloPage loggedUserTrelloPage = new HomePage(driver)
-                .getLogInButton()
+                .openLogInPage()
                 .fillUserLogIn(userData);
         //then
         Assert.assertEquals(loggedUserTrelloPage.getHeaderName().getText(), "TWOJE PRZESTRZENIE ROBOCZE");
@@ -47,11 +47,11 @@ public class LogInLogOutTest extends BaseTest {
         UserData userData = new UserData();
         //when
         LogOutPage logOutUser = new HomePage(driver)
-                .getLogInButton()
+                .openLogInPage()
                 .fillUserLogIn(userData)
-                .getLogOutButton();
+                .openLogOutPage();
         String logOutHeader = logOutUser.getLogOutHeader().getText();
-        HomePage homePage = logOutUser.logOutSubmit();
+        HomePage homePage = logOutUser.logOutToHomePage();
         String textBlock = homePage.getTextBlock().getText();
         //then
         Assert.assertEquals(logOutHeader, "Wyloguj się z konta Atlassian");
