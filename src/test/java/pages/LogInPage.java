@@ -57,11 +57,11 @@ public class LogInPage {
         return this;
     }
 
-    public LoggedUserTrelloPage fillUserLogIn(UserData userData) {
+    public BoardsLayout fillUserLogIn(UserData userData) {
         userEmailInput.sendKeys(userData.getEmail());
         logInEmailButton.click();
         getUserPasswordInput().sendKeys(userData.getPassword());
         submitButton.click();
-        return new LoggedUserTrelloPage(driver);
+        return new BoardsLayout(driver);
     }
 }

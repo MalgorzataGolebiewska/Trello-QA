@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.SeleniumHelper;
 
-public class LoggedUserTrelloPage {
+public class BoardsLayout {
 
     @FindBy(xpath = "//h3[text()='TWOJE PRZESTRZENIE ROBOCZE']")
     private WebElement headerName;
@@ -23,9 +23,10 @@ public class LoggedUserTrelloPage {
     @FindBy(xpath = "//div[@class='board-tile mod-add']")
     private WebElement addNewBoardTile;
 
+
     private final WebDriver driver;
 
-    public LoggedUserTrelloPage(WebDriver driver) {
+    public BoardsLayout(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }

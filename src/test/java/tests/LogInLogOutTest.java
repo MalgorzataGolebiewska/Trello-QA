@@ -3,10 +3,10 @@ package tests;
 import models.UserData;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.BoardsLayout;
 import pages.HomePage;
 import pages.LogInPage;
 import pages.LogOutPage;
-import pages.LoggedUserTrelloPage;
 
 public class LogInLogOutTest extends BaseTest {
 
@@ -34,7 +34,7 @@ public class LogInLogOutTest extends BaseTest {
         //given
         UserData userData = new UserData();
         //when
-        LoggedUserTrelloPage loggedUserTrelloPage = new HomePage(driver)
+        BoardsLayout loggedUserTrelloPage = new HomePage(driver)
                 .openLogInPage()
                 .fillUserLogIn(userData);
         //then
