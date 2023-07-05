@@ -28,4 +28,5 @@ public class HomePage {
     public WebElement getTextBlock() {
         return textBlock;
     }
+
 }

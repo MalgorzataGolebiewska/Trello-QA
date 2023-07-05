@@ -6,6 +6,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ListPage {
 
     @FindBy(xpath = "//input[@class='list-name-input' and contains(@placeholder,'Wprowadź tytuł listy')]")
@@ -40,37 +43,23 @@ public class ListPage {
         return listNameInput;
     }
 
-    public ListPage setNameFirstList() {
-
-        Actions actions = new Actions(driver);
-        actions.click(listNameInput).sendKeys("First Test").perform();
-        actions.click(listAddButton).perform();
+    public ListPage addThreeLists(){
+        List<String> listNames = Arrays.asList("First Test", "Second Test", "Third Test");
+        for (String listName : listNames) {
+            setListName(listName, listName.equals("Third Test"));
+        }
         return this;
     }
 
-    public ListPage setNameSecondList() {
+    private ListPage setListName(String listName, boolean cancel) {
 
         Actions actions = new Actions(driver);
-        actions.click(listNameInput).sendKeys("Second Test").perform();
+        actions.click(listNameInput).sendKeys(listName).perform();
         actions.click(listAddButton).perform();
+        if (cancel){
+            actions.click(cencelIcon).perform();
+        }
         return this;
-    }
-
-    public ListPage setNameThirdList() {
-
-        Actions actions = new Actions(driver);
-        actions.click(listNameInput).sendKeys("Third Test").perform();
-        actions.click(listAddButton).perform();
-        actions.click(cencelIcon).perform();
-        return this;
-    }
-
-    public WebElement getListAddButton() {
-        return listAddButton;
-    }
-
-    public WebElement getListHeader() {
-        return listHeader;
     }
 
     public WebElement getNameSecondTestList() {
@@ -88,11 +77,6 @@ public class ListPage {
     public CardPage refreshPageToListPage() {
         driver.navigate().refresh();
         return new CardPage(driver);
-    }
-
-    public SeleniumTilePage refreshToSeleniumTilePage() {
-        driver.navigate().refresh();
-        return new SeleniumTilePage(driver);
     }
 
 }

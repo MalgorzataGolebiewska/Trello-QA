@@ -20,11 +20,11 @@ public class BoardsTest extends BaseTest {
                 .openSeleniumTile();
         //then
         Assert.assertEquals(seleniumTilePage.getBoardName().getText(), "Selenium test");
-        Assert.assertEquals(seleniumTilePage.getAccesOption().getText(), "Prywatna");
+        Assert.assertEquals(seleniumTilePage.getAccessOption().getText(), "Prywatna");
     }
 
     @Test
-    public void EmptyInputTest() {
+    public void emptyInputTest() {
         //given
         UserData userData = new UserData();
         //when
@@ -32,13 +32,13 @@ public class BoardsTest extends BaseTest {
                 .openLogInPage()
                 .fillUserLogIn(userData)
                 .openSeleniumTile()
-                .addNewListButton();
+                .createNewList();
         //then
         Assert.assertEquals(emptyInput.getListNameInput().getText(), "");
     }
 
     @Test
-    public void FirstListTest() {
+    public void firstListTest() {
         //given
         UserData userData = new UserData();
         //when
@@ -46,10 +46,8 @@ public class BoardsTest extends BaseTest {
                 .openLogInPage()
                 .fillUserLogIn(userData)
                 .openSeleniumTile()
-                .addNewListButton()
-                .setNameFirstList()
-                .setNameSecondList()
-                .setNameThirdList();
+                .createNewList()
+                .addThreeLists();
         //then
         Assert.assertEquals(listPage.getNameFirstTestList().getText(), "First Test");
         Assert.assertEquals(listPage.getNameSecondTestList().getText(), "Second Test");
@@ -57,7 +55,7 @@ public class BoardsTest extends BaseTest {
     }
 
     @Test
-    public void DragAndDropCards() {
+    public void dragAndDropCards() {
         //given
         UserData userData = new UserData();
         //when
@@ -65,12 +63,10 @@ public class BoardsTest extends BaseTest {
                 .openLogInPage()
                 .fillUserLogIn(userData)
                 .openSeleniumTile()
-                .addNewListButton()
-                .setNameFirstList()
-                .setNameSecondList()
-                .setNameThirdList()
+                .createNewList()
+                .addThreeLists()
                 .refreshPageToListPage()
-                .addSixCard()
+                .addSixCards()
                 .backToSeleniumTilePage()
                 .firstActionPerformTest();
         //then
@@ -83,7 +79,7 @@ public class BoardsTest extends BaseTest {
     }
 
     @Test
-    public void CloseLists() {
+    public void closeLists() {
         //given
         UserData userData = new UserData();
         //when
@@ -91,12 +87,10 @@ public class BoardsTest extends BaseTest {
                 .openLogInPage()
                 .fillUserLogIn(userData)
                 .openSeleniumTile()
-                .addNewListButton()
-                .setNameFirstList()
-                .setNameSecondList()
-                .setNameThirdList()
+                .createNewList()
+                .addThreeLists()
                 .refreshPageToListPage()
-                .addSixCard()
+                .addSixCards()
                 .backToSeleniumTilePage()
                 .firstActionPerformTest()
                 .closeFirstList()

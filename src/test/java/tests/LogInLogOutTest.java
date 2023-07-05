@@ -17,7 +17,7 @@ public class LogInLogOutTest extends BaseTest {
         //when
         LogInPage logInPage = new HomePage(driver)
                 .openLogInPage();
-        String afterLogInInfo = logInPage.getZalogujDoTrello().getText();
+        String afterLogInInfo = logInPage.getLogInToTrello().getText();
         String emptyUserEmail = logInPage.getUserEmailInput().getText();
         LogInPage logInPagePassword = logInPage.fillEmailInput(userData);
         String loginUsername = logInPagePassword.getUsernameHidden().getText();

@@ -7,6 +7,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utils.SeleniumHelper;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CardPage {
 
     @FindBy(xpath = "//span[@class='js-add-a-card']")
@@ -19,7 +22,7 @@ public class CardPage {
     private WebElement addCardToList;
 
     @FindBy(xpath = "//div/a[@class='icon-lg icon-close dark-hover js-cancel-edit']")
-    private WebElement cencelIcon;
+    private WebElement cancelIcon;
 
     protected final WebDriver driver;
 
@@ -28,93 +31,31 @@ public class CardPage {
         this.driver = driver;
     }
 
-    public WebElement getAddCardButton() {
-        SeleniumHelper.waitForClickable(addCardButton, driver);
-        return addCardButton;
-    }
-
-    public WebElement getNameCard() {
-        SeleniumHelper.waitForClickable(nameCard, driver);
-        return nameCard;
-    }
-
-    public WebElement getAddCardToList() {
-        SeleniumHelper.waitForClickable(addCardToList, driver);
-        return addCardToList;
-    }
-
-    public CardPage firstCardName() {
+    public CardPage addSixCards() {
 
         Actions actions = new Actions(driver);
         actions.click(addCardButton).perform();
-        actions.click(nameCard).sendKeys("Card First").perform();
-        actions.click(addCardToList).perform();
-        return this;
-    }
-
-    public CardPage secondCardName() {
-
-        Actions actions = new Actions(driver);
-        actions.click(nameCard).sendKeys("Card Second").perform();
-        actions.click(addCardToList).perform();
-        return this;
-    }
-
-    public CardPage thirdCardName() {
-
-        Actions actions = new Actions(driver);
-        actions.click(nameCard).sendKeys("Card Third").perform();
-        actions.click(addCardToList).perform();
-        return this;
-    }
-
-    public CardPage fourthCardName() {
-
-        Actions actions = new Actions(driver);
-        actions.click(nameCard).sendKeys("Card Fourth").perform();
-        actions.click(addCardToList).perform();
-        return this;
-    }
-
-    public CardPage fifthCardName() {
-
-        Actions actions = new Actions(driver);
-        actions.click(nameCard).sendKeys("Card Fifth").perform();
-        actions.click(addCardToList).perform();
-        return this;
-    }
-
-    public CardPage sixthCardName() {
-
-        Actions actions = new Actions(driver);
-        actions.click(nameCard).sendKeys("Card Sixth").perform();
-        actions.click(addCardToList).perform();
-        driver.navigate().refresh();
-        return this;
-    }
-
-    public CardPage addSixCard() {
-
-        Actions actions = new Actions(driver);
-        actions.click(addCardButton).perform();
-        actions.click(nameCard).sendKeys("Card First").perform();
-        actions.click(addCardToList).perform();
-        actions.click(nameCard).sendKeys("Card Second").perform();
-        actions.click(addCardToList).perform();
-        actions.click(nameCard).sendKeys("Card Third").perform();
-        actions.click(addCardToList).perform();
-        actions.click(nameCard).sendKeys("Card Fourth").perform();
-        actions.click(addCardToList).perform();
-        actions.click(nameCard).sendKeys("Card Fifth").perform();
-        actions.click(addCardToList).perform();
-        actions.click(nameCard).sendKeys("Card Sixth").perform();
-        actions.click(addCardToList).perform();
+        List<String> cardNames = Arrays.asList("Card First", "Card Second", "Card Third", "Card Fourth", "Card Fifth", "Card Sixth");
+        for (String cardName : cardNames) {
+            addSingleCard(cardName, cardName.equals("Card Sixth"));
+        }
         return this;
     }
 
     public SeleniumTilePage backToSeleniumTilePage() {
         driver.navigate().refresh();
         return new SeleniumTilePage(driver);
+    }
+
+    private CardPage addSingleCard(String cardName, boolean refresh) {
+
+        Actions actions = new Actions(driver);
+        actions.click(nameCard).sendKeys(cardName).perform();
+        actions.click(addCardToList).perform();
+        if (refresh) {
+            driver.navigate().refresh();
+        }
+        return this;
     }
 
 }

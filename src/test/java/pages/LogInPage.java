@@ -10,7 +10,7 @@ import utils.SeleniumHelper;
 public class LogInPage {
 
     @FindBy(xpath = "//h1[text()='Zaloguj do Trello']")
-    private WebElement zalogujDoTrello;
+    private WebElement logInToTrello;
 
     @FindBy(id = "user")
     private WebElement userEmailInput;
@@ -34,8 +34,8 @@ public class LogInPage {
         this.driver = driver;
     }
 
-    public WebElement getZalogujDoTrello() {
-        return zalogujDoTrello;
+    public WebElement getLogInToTrello() {
+        return logInToTrello;
     }
 
     public WebElement getUserEmailInput() {
@@ -64,4 +64,5 @@ public class LogInPage {
         submitButton.click();
         return new BoardsLayout(driver);
     }
+
 }

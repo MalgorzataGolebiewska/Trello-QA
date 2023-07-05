@@ -23,7 +23,6 @@ public class BoardsLayout {
     @FindBy(xpath = "//div[@class='board-tile mod-add']")
     private WebElement addNewBoardTile;
 
-
     private final WebDriver driver;
 
     public BoardsLayout(WebDriver driver) {
@@ -47,7 +46,4 @@ public class BoardsLayout {
         return new SeleniumTilePage(driver);
     }
 
-    public WebElement getAddNewBoardTile() {
-        return addNewBoardTile;
-    }
 }

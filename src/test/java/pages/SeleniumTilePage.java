@@ -13,7 +13,7 @@ public class SeleniumTilePage {
     private WebElement boardName;
 
     @FindBy(xpath = "//div/button[text()='Prywatna']")
-    private WebElement accesOption;
+    private WebElement accessOption;
 
     @FindBy(xpath = "//div/form/a[@class='open-add-list js-open-add-list']")
     private WebElement newListButton;
@@ -63,11 +63,11 @@ public class SeleniumTilePage {
         return boardName;
     }
 
-    public WebElement getAccesOption() {
-        return accesOption;
+    public WebElement getAccessOption() {
+        return accessOption;
     }
 
-    public ListPage addNewListButton() {
+    public ListPage createNewList() {
         newListButton.click();
         return new ListPage(driver);
     }
@@ -119,11 +119,6 @@ public class SeleniumTilePage {
     public WebElement getSixthCard() {
         SeleniumHelper.waitForClickable(sixthCard, driver);
         return sixthCard;
-    }
-
-    public SeleniumTilePage refreshSeleniumTilePage() {
-        driver.navigate().refresh();
-        return this;
     }
 
     public SeleniumTilePage firstActionPerformTest() {

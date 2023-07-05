@@ -27,4 +27,5 @@ public class LogOutPage {
         logOutSubmitButton.click();
         return new HomePage(driver);
     }
+
 }
