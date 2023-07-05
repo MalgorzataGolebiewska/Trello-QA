@@ -21,7 +21,6 @@ public class BoardsTest extends BaseTest {
         //then
         Assert.assertEquals(seleniumTilePage.getBoardName().getText(), "Selenium test");
         Assert.assertEquals(seleniumTilePage.getAccesOption().getText(), "Prywatna");
-
     }
 
     @Test
@@ -81,5 +80,29 @@ public class BoardsTest extends BaseTest {
         Assert.assertEquals(moveCard.getFourthCard().getText(), "Card Fourth");
         Assert.assertEquals(moveCard.getFifthCard().getText(), "Card Fifth");
         Assert.assertEquals(moveCard.getSixthCard().getText(), "Card Sixth");
+    }
+
+    @Test
+    public void CloseLists() {
+        //given
+        UserData userData = new UserData();
+        //when
+        SeleniumTilePage closeLists = new HomePage(driver)
+                .openLogInPage()
+                .fillUserLogIn(userData)
+                .openSeleniumTile()
+                .addNewListButton()
+                .setNameFirstList()
+                .setNameSecondList()
+                .setNameThirdList()
+                .refreshPageToListPage()
+                .addSixCard()
+                .backToSeleniumTilePage()
+                .firstActionPerformTest()
+                .closeFirstList()
+                .closeSecondList()
+                .closeThirdList();
+        //then
+        Assert.assertEquals(closeLists.getAddNewListText().getText(), "Dodaj listę");
     }
 }

@@ -21,7 +21,6 @@ public class CardPage {
     @FindBy(xpath = "//div/a[@class='icon-lg icon-close dark-hover js-cancel-edit']")
     private WebElement cencelIcon;
 
-
     protected final WebDriver driver;
 
     public CardPage(WebDriver driver) {
@@ -43,7 +42,6 @@ public class CardPage {
         SeleniumHelper.waitForClickable(addCardToList, driver);
         return addCardToList;
     }
-
 
     public CardPage firstCardName() {
 

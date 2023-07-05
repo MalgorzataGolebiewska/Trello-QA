@@ -45,6 +45,11 @@ public class SeleniumTilePage {
     @FindBy(xpath = "//div[@class='list-card-details js-card-details']/span[text()='Card Sixth']")
     private WebElement sixthCard;
 
+    @FindBy(xpath = "//div/a[@class='list-header-extras-menu js-open-list-menu icon-sm icon-overflow-menu-horizontal']")
+    private WebElement listMenuIcon;
+
+    @FindBy(xpath = "//ul/li/a[@class='js-close-list']")
+    private WebElement closeListOption;
 
     private final WebDriver driver;
 
@@ -65,6 +70,10 @@ public class SeleniumTilePage {
     public ListPage addNewListButton() {
         newListButton.click();
         return new ListPage(driver);
+    }
+
+    public WebElement getAddNewListText() {
+        return newListButton;
     }
 
     public WebElement toSecondTestList() {
@@ -112,6 +121,11 @@ public class SeleniumTilePage {
         return sixthCard;
     }
 
+    public SeleniumTilePage refreshSeleniumTilePage() {
+        driver.navigate().refresh();
+        return this;
+    }
+
     public SeleniumTilePage firstActionPerformTest() {
 
         Actions actions = new Actions(driver);
@@ -135,6 +149,33 @@ public class SeleniumTilePage {
         actions.moveToElement(toSecondTestList());
         actions.release().perform();
         return this;
+    }
+
+    public SeleniumTilePage closeFirstList() {
+        SeleniumHelper.waitForClickable(listMenuIcon, driver);
+        Actions actions = new Actions(driver);
+        actions.click(firstTestList).perform();
+        actions.click(listMenuIcon).perform();
+        actions.click(closeListOption).perform();
+        return new SeleniumTilePage(driver);
+    }
+
+    public SeleniumTilePage closeSecondList() {
+        SeleniumHelper.waitForClickable(listMenuIcon, driver);
+        Actions actions = new Actions(driver);
+        actions.click(secondTestList).perform();
+        actions.click(listMenuIcon).perform();
+        actions.click(closeListOption).perform();
+        return new SeleniumTilePage(driver);
+    }
+
+    public SeleniumTilePage closeThirdList() {
+        SeleniumHelper.waitForClickable(listMenuIcon, driver);
+        Actions actions = new Actions(driver);
+        actions.click(thirdTestList).perform();
+        actions.click(listMenuIcon).perform();
+        actions.click(closeListOption).perform();
+        return new SeleniumTilePage(driver);
     }
 
 }

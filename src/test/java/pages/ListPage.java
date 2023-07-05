@@ -29,7 +29,6 @@ public class ListPage {
     @FindBy(xpath = "//div/textarea[text()='Third Test']")
     private WebElement nameThirdTestList;
 
-
     protected final WebDriver driver;
 
     public ListPage(WebDriver driver) {
@@ -90,4 +89,10 @@ public class ListPage {
         driver.navigate().refresh();
         return new CardPage(driver);
     }
+
+    public SeleniumTilePage refreshToSeleniumTilePage() {
+        driver.navigate().refresh();
+        return new SeleniumTilePage(driver);
+    }
+
 }
