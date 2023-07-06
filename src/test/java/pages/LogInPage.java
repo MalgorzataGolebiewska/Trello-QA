@@ -57,12 +57,12 @@ public class LogInPage {
         return this;
     }
 
-    public BoardsLayout fillUserLogIn(UserData userData) {
+    public BoardsPage fillUserLogIn(UserData userData) {
         userEmailInput.sendKeys(userData.getEmail());
         logInEmailButton.click();
         getUserPasswordInput().sendKeys(userData.getPassword());
         submitButton.click();
-        return new BoardsLayout(driver);
+        return new BoardsPage(driver);
     }
 
 }
