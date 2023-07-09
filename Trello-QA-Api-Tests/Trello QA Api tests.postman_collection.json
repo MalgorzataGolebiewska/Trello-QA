@@ -1,0 +1,1200 @@
+{
+	"info": {
+		"_postman_id": "5d00605e-fe43-44c4-9680-6e57d2efb0e5",
+		"name": "Trello QA Api tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25751002",
+		"_collection_link": "https://planetary-water-674141.postman.co/workspace/Team-Workspace~764036c7-ee87-457f-8180-2677de6d919b/collection/25751002-5d00605e-fe43-44c4-9680-6e57d2efb0e5?action=share&creator=25751002&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Before",
+			"item": [
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify type of name\", () =>{\r",
+									"    resBody.map(item => {\r",
+									"        if(item.name == \"TrelloQA\"){\r",
+									"            pm.expect(item.id).exist;\r",
+									"            pm.expect(item.id.length).to.greaterThan(10);\r",
+									"            pm.collectionVariables.set(\"boardID\", item.id);\r",
+									"        }\r",
+									"    })\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/organizations/{{idOrganization}}/boards?key={{key}}&token={{token}}&fields=name",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"organizations",
+								"{{idOrganization}}",
+								"boards"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "fields",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete board by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response value\", () =>{\r",
+									"    pm.expect(resBody._value).to.eql(null);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/{{boardID}}?key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								"{{boardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "fields",
+									"value": "name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test1",
+			"item": [
+				{
+					"name": "New Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"    \r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created board name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"TrelloQA\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"boardID\", resBody.id);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created board name\", () =>{\r",
+									"    pm.expect(resBody.id).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/boards/?name=TrelloQA&key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"boards",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "TrelloQA"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Tworzenie nowej tablicy"
+		},
+		{
+			"name": "Test2",
+			"item": [
+				{
+					"name": "FirstList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"FirstList\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"firstListID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists?name=FirstList&idBoard={{boardID}}&key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "FirstList"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{boardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SecondList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"SecondList\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"secondListID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists?name=SecondList&idBoard={{boardID}}&key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "SecondList"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{boardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ThirdList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"ThirdList\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"thirdListID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists?name=ThirdList&idBoard={{boardID}}&key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ThirdList"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{boardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test3",
+			"item": [
+				{
+					"name": "Update FirstList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"FirstList edited\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists/{{firstListID}}?key={{key}}&token={{token}}&name=FirstList edited",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists",
+								"{{firstListID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "FirstList edited"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test4",
+			"item": [
+				{
+					"name": "Archive SecondList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/lists/{{secondListID}}/closed?key={{key}}&token={{token}}&value=true",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"lists",
+								"{{secondListID}}",
+								"closed"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "value",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test5",
+			"item": [
+				{
+					"name": "Card 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 1\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"firstCardID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{firstListID}}&key={{key}}&token={{token}}&name=Card 1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{firstListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Card 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 2\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"secondCardID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{firstListID}}&key={{key}}&token={{token}}&name=Card 2",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{firstListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Card 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 3\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"thirdCardID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{firstListID}}&key={{key}}&token={{token}}&name=Card 3",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{firstListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Card 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 4\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"fourthCardID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{firstListID}}&key={{key}}&token={{token}}&name=Card 4",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{firstListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Card 5",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 5\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.collectionVariables.set(\"fifthCardID\", resBody.id);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards?idList={{firstListID}}&key={{key}}&token={{token}}&name=Card 5",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{firstListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test6",
+			"item": [
+				{
+					"name": "Update Card 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Card 1 edited\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards/{{firstCardID}}?key={{key}}&token={{token}}&name=Card 1 edited",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards",
+								"{{firstCardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Card 1 edited"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test7",
+			"item": [
+				{
+					"name": "Delete Card 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should verify status code\", () => {\r",
+									"    pm.response.to.have.status(200)\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards/{{thirdCardID}}?key={{key}}&token={{token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards",
+								"{{thirdCardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test8",
+			"item": [
+				{
+					"name": "Move Card 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.expect(resBody.idList).to.eql(pm.collectionVariables.get(\"thirdListID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/cards/{{fourthCardID}}?key={{key}}&token={{token}}&idList={{thirdListID}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"cards",
+								"{{fourthCardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "idList",
+									"value": "{{thirdListID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test9",
+			"item": [
+				{
+					"name": "Add Checklist",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let resBody;\r",
+									"\r",
+									"pm.test(\"Should verify status code\", () =>{\r",
+									"    pm.response.to.have.status(200)\r",
+									"    resBody = pm.response.json();\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify created list name\", () =>{\r",
+									"    pm.expect(resBody.name).to.eql(\"Checklist\")\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Should verify response id\", () =>{\r",
+									"    pm.expect(resBody.id).exist;\r",
+									"    pm.expect(resBody.id.length).to.greaterThan(10);\r",
+									"    pm.expect(resBody.idBoard).to.eql(pm.collectionVariables.get(\"boardID\"))\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://api.trello.com/1/checklists?idCard={{firstCardID}}&key={{key}}&token={{token}}&name=Checklist",
+							"protocol": "https",
+							"host": [
+								"api",
+								"trello",
+								"com"
+							],
+							"path": [
+								"1",
+								"checklists"
+							],
+							"query": [
+								{
+									"key": "idCard",
+									"value": "{{firstCardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "Checklist"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "boardID",
+			"value": ""
+		},
+		{
+			"key": "firstListID",
+			"value": ""
+		},
+		{
+			"key": "secondListID",
+			"value": ""
+		},
+		{
+			"key": "firstCardID",
+			"value": ""
+		},
+		{
+			"key": "secondCardID",
+			"value": ""
+		},
+		{
+			"key": "thirdCardID",
+			"value": ""
+		},
+		{
+			"key": "fourthCardID",
+			"value": ""
+		},
+		{
+			"key": "fifthCardID",
+			"value": ""
+		},
+		{
+			"key": "thirdListID",
+			"value": ""
+		},
+		{
+			"key": "idOrganization",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
